@@ -23,6 +23,8 @@ public class Number1{
                 System.out.print("Enter your choice: ");
                 option = input.nextInt();
                 switch(option){
+
+                    // Angas naman niyan, naka switch case na, mwehehehe
                     case 1:
                         System.out.print("Enter a year: ");
                         int year = input.nextInt();
