@@ -1,33 +1,36 @@
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
-public class Number1{
+public class Number1 {
     static Scanner input = new Scanner(System.in);
+
     public static void main(String[] args) {
 
-        String[] options = {"Leap Year Checker", "Compare Height", "Series", "Generate a Diamond", "Exit"};
+        String[] options = { "Leap Year Checker", "Compare Height", "Series", "Generate a Diamond", "Exit" };
 
         System.out.print("Enter your name: ");
         String name = input.nextLine();
         System.out.println("Hello, " + name + "!\n");
 
         int option = -1;
-        while(option != 5){
-            //choicesmenu
+        while (option != 5) {
+            // choicesmenu
             System.out.println("Tell me what you want to do, here are your options: ");
-            for(int i = 0, number = 1; i < options.length; i++){
-            System.out.println(number++ + ". " + options[i]);
+            for (int i = 0, number = 1; i < options.length; i++) {
+                System.out.println(number++ + ". " + options[i]);
             }
             System.out.println();
-            try{
+            try {
                 System.out.print("Enter your choice: ");
                 option = input.nextInt();
-                switch(option){
+                switch (option) {
                     case 1:
                         System.out.print("Enter a year: ");
                         int year = input.nextInt();
-                        if(leapYearOrNot(year)) System.out.println("Year " + year + " is a leap year.\n");
-                        else System.out.println("Year " + year + " is not a leap year.\n");
+                        if (leapYearOrNot(year))
+                            System.out.println("Year " + year + " is a leap year.\n");
+                        else
+                            System.out.println("Year " + year + " is not a leap year.\n");
                         break;
                     case 2:
                         System.out.print("Enter height of person 1(cm): ");
@@ -36,7 +39,7 @@ public class Number1{
                         int b = input.nextInt();
                         System.out.print("Enter height of person 3(cm): ");
                         int c = input.nextInt();
-                        System.out.println(compareHeights(a, b , c));
+                        System.out.println(compareHeights(a, b, c));
                         System.out.println();
                         break;
                     case 3:
@@ -55,33 +58,36 @@ public class Number1{
                         System.out.println("Program Exited.\n");
                         break;
                     default:
-                        System.out.println("Invalid choice, choose from 1 to 4!\n");
+                        System.out.println("Invalid choice, choose from 1 to 5!\n");
                         break;
                 }
-            }catch(NumberFormatException e){
-                //user input a wrong number format
+            } catch (NumberFormatException e) {
+                // user input a wrong number format
                 System.out.println("Only whole numbers are allowed, please try again.");
                 input.nextLine();
-            }catch(InputMismatchException e){
-                //wrong input from scanner example: int but input was string
-                System.out.println("Your input is invalid, please enter a correct format");
+                System.out.println();
+            } catch (InputMismatchException e) {
+                // wrong input from scanner example: int but input was string
+                System.out.println("Your input is invalid, please enter a correct format.");
                 input.nextLine();
+                System.out.println();
             }
         }
-        input.close();  
+        input.close();
     }
 
-    //Methods used is switch case
-    //Leap year checker method
+    // Methods used is switch case
+    // Leap year checker method
     public static boolean leapYearOrNot(int year) {
         if (year % 4 != 0) {
             return false;
         } else if (year % 100 != 0) {
             return true;
-        } else return year % 400 == 0;
+        } else
+            return year % 400 == 0;
     }
-    
-    //Compare height method
+
+    // Compare height method
     public static String compareHeights(int a, int b, int c) {
         if (a == b && b == c) {
             return "All persons have equal height.";
@@ -112,8 +118,8 @@ public class Number1{
         }
     }
 
-    //fibonacci series method
-    //find a way to do recursively?
+    // fibonacci series method
+    // find a way to do recursively?
     public static void fibonacciSeries(int limit) {
         int firstNumber = 1;
         int secondNumber = 1;
@@ -126,9 +132,10 @@ public class Number1{
             firstNumber = secondNumber;
             secondNumber = next;
         }
+        System.out.println();
     }
 
-    //diamond generator method
+    // diamond generator method
     public static void createDiamond(int rowsFromMiddle) {
         int numberOfColumns = rowsFromMiddle * 2 - 1;
         for (int i = 1; i <= rowsFromMiddle; i++) {
