@@ -158,7 +158,8 @@ public class Number2 {
             root.x = map.getOrDefault(root.data, userInput); //A , 23 --> map.get('A') = 23
         }
     }
-
+    
+    //display prefix and postfix from the updated expression tree
     public static String displayUpdatePrefixAndPostfix(String expression, HashMap<Character, Integer> map){
         if(expression == null || expression.isEmpty()) return null;
 
