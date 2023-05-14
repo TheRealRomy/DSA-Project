@@ -144,7 +144,7 @@ public class Number2 {
         displayInorderTreeStructure(root.right);
     }
 
-    // checks if the node is leaf
+    // checks if the node is leafed
     public static boolean isLeaf(Node root) {
         return root.left == null && root.right == null;
     }
@@ -196,24 +196,16 @@ public class Number2 {
 
                     while (!nums.isEmpty()) {
                         switch (c) {
-                            case '+':
-                                result += nums.pop();
-                                break;
-                            case '-':
-                                result -= nums.pop();
-                                break;
-                            case '*':
-                                result *= nums.pop();
-                                break;
-                            case '/':
-                                result /= nums.pop();
-                                break;
+                            case '+' -> result += nums.pop();
+                            case '-' -> result -= nums.pop();
+                            case '*' -> result *= nums.pop();
+                            case '/' -> result /= nums.pop();
                         }
                     }
 
                 }
             } catch (Exception e) {
-                System.out.println("Can't Perform Arithmetic Operation, Try changing the leaf order");
+                System.out.println("Can't perform arithmetic operation, Try changing the leaf order");
             }
 
         }
@@ -221,7 +213,7 @@ public class Number2 {
         return result;
     }
 
-    // display the updated expression tree(infix structure)
+    // Displays the updated expression tree(infix structure)
     public static String displayUpdatedExpression(String expression, HashMap<Character, Integer> map) {
         StringBuilder sb = new StringBuilder();
         for (char c : expression.toCharArray()) {
