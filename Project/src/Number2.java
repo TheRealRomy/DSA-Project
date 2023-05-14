@@ -1,4 +1,4 @@
-import java.util.Stack;
+import java.util.*;
 
 class Node {
     char data;
@@ -96,7 +96,22 @@ public class Number2 {
         System.out.print(root.data + " ");
         inorderTraversal(root.right);
     }
+    
+    // method na kukuha ng variable sa variableMap
+    public static void updateVariable(Node root, Map<Character, Integer> variableMap){
+        if(root == null) return;
+        
+        updateVariable(root.left, variableMap);
+        updateVariable(root.right, variableMap);
+        
+        if(Character.isLetter(root.data)){
+            int value = variableMap.getOrDefault(root.data, 0);
+            root.x = value;
+        }
+    }
 
+    // tas dito nalang natin lagay yung boolean method kung leaf ba
+    
     public static void main(String[] args) {
         //testo testo delete later - rm
         String expression = "( A + B - C )";
@@ -117,5 +132,23 @@ public class Number2 {
          *            / \
          *           A   B        
          */
+        
+        //tapos dito sa main method mag seset ng variable na nakita sa user input
+        Set<Character> variables = new HashSet<>();
+        
+        for(char c : expression.toCharArray()){
+            if(Character.isLetter(c)){
+                variables.add(c);
+            }
+        }
+        
+        //tapos eto naman sa pag set ng values nung variable
+        Map<Character, Integer> variableMap = new HashMap<>();
+        for(char c : variables){
+            System.out.print("value for " + c ": ");
+            int value = input.nextInt();
+            variableMap.put(c, value);
+        }
+       
     }
 }
