@@ -160,7 +160,6 @@ public class Number2 {
         }
     }
 
-    //display postfix and prefix of updated expression tree
     public static String displayUpdatePrefixAndPostfix(String expression, HashMap<Character, Integer> map) {
         if (expression == null || expression.isEmpty())
             return null;
@@ -183,18 +182,18 @@ public class Number2 {
         return sb.toString();
     }
 
-    //evaluate tree(user optional)
+    // evaluate tree(user optional)
     public static int evaluateTree(String postfix, HashMap<Character, Integer> map) {
         Stack<Integer> nums = new Stack<>();
         int result = 0;
         for (char c : postfix.toCharArray()) {
-            try{
+            try {
                 if (c == ' ') {
                     continue;
                 } else if (Character.isLetterOrDigit(c)) {
                     nums.push(map.get(c));
                 } else if (isOperator(c)) {
-    
+
                     while (!nums.isEmpty()) {
                         switch (c) {
                             case '+':
@@ -211,22 +210,22 @@ public class Number2 {
                                 break;
                         }
                     }
-    
+
                 }
-            }catch(Exception e){
+            } catch (Exception e) {
                 System.out.println("Can't Perform Arithmetic Operation, Try changing the leaf order");
             }
-            
+
         }
 
         return result;
     }
 
-    //display the updated expression tree(infix structure)
-    public static String displayUpdatedExpression(String expression, HashMap<Character, Integer> map){
+    // display the updated expression tree(infix structure)
+    public static String displayUpdatedExpression(String expression, HashMap<Character, Integer> map) {
         StringBuilder sb = new StringBuilder();
-        for(char c : expression.toCharArray()){
-            if(c == ' '){
+        for (char c : expression.toCharArray()) {
+            if (c == ' ') {
                 continue;
             } else if (Character.isLetterOrDigit(c)) {
                 if (map.get(c) == null) {
@@ -249,14 +248,13 @@ public class Number2 {
         System.out.print("Expression Tree: ");
         displayInorderTreeStructure(root);
         System.out.println();
-        updateVariable(root.left.left, map, 23); //A
-        updateVariable(root.left.right, map, 12);//B
-        updateVariable(root.right, map, 69); //C
-        
+        updateVariable(root.left.left, map, 23); // A
+        updateVariable(root.left.right, map, 12);// B
+        updateVariable(root.right, map, 69); // C
+
         System.out.print(displayUpdatedExpression(expression, map));
         System.out.print(" = ");
         System.out.println(evaluateTree(postfix, map));
-        
 
     }
 }
