@@ -186,33 +186,62 @@ public class Number2 {
 
     // evaluate tree(user optional)
     public static double evaluateTree(String postfix, HashMap<Character, Integer> map) {
-        if (postfix.length() <= 1)
-            return Character.getNumericValue(postfix.charAt(0));
-        Stack<Integer> nums = new Stack<>();
+        if (postfix.length() <= 1) {
+            if (map.get(postfix.charAt(0)) == null) {
+                return 0;
+            }
+            return map.get(postfix.charAt(0));
+        }
+        Stack<Double> nums = new Stack<>();
         double result = 0.0;
         for (char c : postfix.toCharArray()) {
-            try {
-                if (c == ' ') {
-                    continue;
-                } else if (Character.isLetterOrDigit(c)) {
-                    if (map.get(c) == null) {
-                        nums.push(0);
-                    } else {
-                        nums.push(map.get(c));
-                    }
-                } else if (isOperator(c)) {
-
-                    while (!nums.isEmpty()) {
-                        switch (c) {
-                            case '+' -> result += nums.pop();
-                            case '-' -> result -= nums.pop();
-                            case '*' -> result *= nums.pop();
-                            case '/' -> result /= nums.pop();
-                        }
-                    }
+            if (c == ' ') {
+                continue;
+            } else if (Character.isLetterOrDigit(c)) {
+                if (map.get(c) == null) {
+                    nums.push(0.0);
+                } else {
+                    nums.push(Double.valueOf(map.get(c)));
                 }
-            } catch (Exception e) {
-                System.out.println("Can't perform arithmetic operation, Try changing the leaf order.");
+            } else if (isOperator(c)) {
+                try {
+                    switch (c) {
+                        case '+' -> {
+                            double right = nums.pop();
+                            double left = nums.pop();
+                            result = left + right;
+                        }
+                        case '-' -> {
+                            double right = nums.pop();
+                            double left = nums.pop();
+                            result = left - right;
+                        }
+                        case '*' -> {
+                            double right = nums.pop();
+                            double left = nums.pop();
+                            result = left * right;
+                        }
+                        case '/' -> {
+                            double right = nums.pop();
+                            double left = nums.pop();
+                            result = left / right;
+                        }
+                        case '^' -> {
+                            double right = nums.pop();
+                            double left = nums.pop();
+                            result = 1;
+                            while (right != 0) {
+                                result *= left;
+                                --right;
+                            }
+                        }
+
+                    }
+                } catch (Exception e) {
+                    System.out.println(
+                            "Can't perform arithmetic operation, Try changing the leaf order or add a new value.");
+                }
+                nums.push(result);
             }
         }
         return result;
@@ -291,7 +320,7 @@ public class Number2 {
 
     public static void main(String[] args) {
         HashMap<Character, Integer> map = new HashMap<>();
-        DecimalFormat df = new DecimalFormat("###,###,##");
+        DecimalFormat df = new DecimalFormat("###,###.##");
 
         System.out.print("Enter a fully parenthesized arithmetic expression: ");
         String expression = sc.nextLine();
