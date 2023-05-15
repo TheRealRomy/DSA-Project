@@ -1,3 +1,4 @@
+import java.text.DecimalFormat;
 import java.util.*;
 
 public class Number2 {
@@ -159,7 +160,7 @@ public class Number2 {
             root.x = map.getOrDefault(root.data, userInput); // A , 23 --> map.get('A') = 23
         }
     }
-
+    //display the prefix or postfix of the updated expression tree
     public static String displayUpdatePrefixAndPostfix(String expression, HashMap<Character, Integer> map) {
         if (expression == null || expression.isEmpty())
             return null;
@@ -183,9 +184,10 @@ public class Number2 {
     }
 
     // evaluate tree(user optional)
-    public static int evaluateTree(String postfix, HashMap<Character, Integer> map) {
+    public static double evaluateTree(String postfix, HashMap<Character, Integer> map) {
+        if(postfix.length() <= 1) return Character.getNumericValue(postfix.charAt(0));
         Stack<Integer> nums = new Stack<>();
-        int result = 0;
+        double result = 0.0;
         for (char c : postfix.toCharArray()) {
             try {
                 if (c == ' ') {
@@ -246,7 +248,9 @@ public class Number2 {
 
         System.out.print(displayUpdatedExpression(expression, map));
         System.out.print(" = ");
-        System.out.println(evaluateTree(postfix, map));
+
+        DecimalFormat df = new DecimalFormat("###,###,##"); // df format for non integer number such as 1.1, 12.9
+        System.out.println(df.format(evaluateTree(postfix, map)));
 
     }
 }
