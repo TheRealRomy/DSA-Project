@@ -195,7 +195,11 @@ public class Number2 {
                 if (c == ' ') {
                     continue;
                 } else if (Character.isLetterOrDigit(c)) {
-                    nums.push(map.get(c));
+                    if (map.get(c) == null) {
+                        nums.push(0);
+                    } else {
+                        nums.push(map.get(c));
+                    }
                 } else if (isOperator(c)) {
 
                     while (!nums.isEmpty()) {
@@ -207,7 +211,6 @@ public class Number2 {
                         }
                     }
                 }
-            } catch (NullPointerException e) {
             } catch (Exception e) {
                 System.out.println("Can't perform arithmetic operation, Try changing the leaf order.");
             }
