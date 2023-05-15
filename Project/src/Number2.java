@@ -207,6 +207,7 @@ public class Number2 {
                         }
                     }
                 }
+            } catch (NullPointerException e) {
             } catch (Exception e) {
                 System.out.println("Can't perform arithmetic operation, Try changing the leaf order.");
             }
