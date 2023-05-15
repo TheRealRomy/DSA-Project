@@ -334,6 +334,7 @@ public class Number2 {
 
             System.out.println("\nPrefix: " + infixToPrefix(expression));
             System.out.println("Postfix: " + postfix);
+            System.out.println("Root: " + root.data);
 
             System.out.println();
             inputValue(root, map, sc);
