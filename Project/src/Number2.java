@@ -3,6 +3,8 @@ import java.util.*;
 
 public class Number2 {
 
+    static Scanner sc = new Scanner(System.in);
+
     static class Node {
         char data;
         Node left, right;
@@ -204,10 +206,9 @@ public class Number2 {
                             case '/' -> result /= nums.pop();
                         }
                     }
-
                 }
             } catch (Exception e) {
-                System.out.println("Can't perform arithmetic operation, Try changing the leaf order. ");
+                System.out.println("Can't perform arithmetic operation, Try changing the leaf order.");
             }
         }
         return result;
@@ -263,9 +264,21 @@ public class Number2 {
             return;
 
         if (isLeaf(root)) {
-            System.out.print("Enter the value of " + root.data + ": ");
-            int value = sc.nextInt();
-            updateVariable(root, map, value);
+            char choice;
+            do {
+                System.out.print("Do you want to update the value of " + root.data + "? (Y/N): ");
+                choice = Character.toLowerCase(sc.next().charAt(0));
+
+                if (choice != 'y' && choice != 'n') {
+                    System.out.println("Please enter 'Y' or 'N' only.");
+                }
+            } while (choice != 'y' && choice != 'n');
+
+            if (choice == 'y') {
+                System.out.print("Enter the new value of " + root.data + ": ");
+                int userInput = sc.nextInt();
+                updateVariable(root, map, userInput);
+            }
         } else {
             inputValue(root.left, map, sc);
             inputValue(root.right, map, sc);
@@ -274,7 +287,6 @@ public class Number2 {
 
     public static void main(String[] args) {
         HashMap<Character, Integer> map = new HashMap<>();
-        Scanner sc = new Scanner(System.in);
         DecimalFormat df = new DecimalFormat("###,###,##");
 
         System.out.print("Enter a fully parenthesized arithmetic expression: ");
