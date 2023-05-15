@@ -1,4 +1,4 @@
-import java.text.DecimalFormat;
+import java.text.*;
 import java.util.*;
 
 public class Number2 {
@@ -14,7 +14,6 @@ public class Number2 {
             right = null;
             x = 0;
         }
-
     }
 
     // postfix method for expression
@@ -157,16 +156,16 @@ public class Number2 {
 
         if (isLeaf(root)) {
             map.put(root.data, userInput);
-            root.x = map.getOrDefault(root.data, userInput); // A , 23 --> map.get('A') = 23
+            root.x = map.getOrDefault(root.data, userInput);
         }
     }
-    //display the prefix or postfix of the updated expression tree
+
+    // display the prefix or postfix of the updated expression tree
     public static String displayUpdatePrefixAndPostfix(String expression, HashMap<Character, Integer> map) {
         if (expression == null || expression.isEmpty())
             return null;
 
         StringBuilder sb = new StringBuilder();
-
         for (char c : expression.toCharArray()) {
             if (c == ' ') {
                 continue;
@@ -185,7 +184,8 @@ public class Number2 {
 
     // evaluate tree(user optional)
     public static double evaluateTree(String postfix, HashMap<Character, Integer> map) {
-        if(postfix.length() <= 1) return Character.getNumericValue(postfix.charAt(0));
+        if (postfix.length() <= 1)
+            return Character.getNumericValue(postfix.charAt(0));
         Stack<Integer> nums = new Stack<>();
         double result = 0.0;
         for (char c : postfix.toCharArray()) {
@@ -207,11 +207,9 @@ public class Number2 {
 
                 }
             } catch (Exception e) {
-                System.out.println("Can't perform arithmetic operation, Try changing the leaf order");
+                System.out.println("Can't perform arithmetic operation, Try changing the leaf order. ");
             }
-
         }
-
         return result;
     }
 
@@ -234,23 +232,79 @@ public class Number2 {
         return sb.toString();
     }
 
+    // checks if the parenthesis is balanced
+    public static boolean isBalancedParenthesis(String expression) {
+        if (!expression.contains("(") && !expression.contains(")")) {
+            System.out.println("No parenthesis found!");
+            return false;
+        }
+        Stack<Character> parenthesisStack = new Stack<Character>();
+        for (int i = 0; i < expression.length(); i++) {
+            char par = expression.charAt(i);
+            if (par == '(') {
+                parenthesisStack.push(par);
+            } else if (par == ')' && parenthesisStack.empty()) {
+                parenthesisStack.push(par);
+            } else if (par == ')' && parenthesisStack.peek() == '(' && !parenthesisStack.isEmpty()) {
+                parenthesisStack.pop();
+            }
+        }
+        if (parenthesisStack.isEmpty()) {
+            return true;
+        } else {
+            System.out.println("The parentheses in the expression you entered are not balanced.");
+            return false;
+        }
+    }
+
+    // asking the user to input the value of the variables or operand
+    public static void inputValue(Node root, HashMap<Character, Integer> map, Scanner sc) {
+        if (root == null)
+            return;
+
+        if (isLeaf(root)) {
+            System.out.print("Enter the value of " + root.data + ": ");
+            int value = sc.nextInt();
+            updateVariable(root, map, value);
+        } else {
+            inputValue(root.left, map, sc);
+            inputValue(root.right, map, sc);
+        }
+    }
+
     public static void main(String[] args) {
         HashMap<Character, Integer> map = new HashMap<>();
-        String expression = "(A + B - C)";
-        String postfix = infixToPostfix(expression);
-        Node root = constructExpressionTree(postfix);
-        System.out.print("Expression Tree: ");
-        displayInorderTreeStructure(root);
-        System.out.println();
-        updateVariable(root.left.left, map, 23); // A
-        updateVariable(root.left.right, map, 12);// B
-        updateVariable(root.right, map, 69); // C
+        Scanner sc = new Scanner(System.in);
+        DecimalFormat df = new DecimalFormat("###,###,##");
 
-        System.out.print(displayUpdatedExpression(expression, map));
-        System.out.print(" = ");
+        System.out.print("Enter a fully parenthesized arithmetic expression: ");
+        String expression = sc.nextLine();
 
-        DecimalFormat df = new DecimalFormat("###,###,##"); // df format for non integer number such as 1.1, 12.9
-        System.out.println(df.format(evaluateTree(postfix, map)));
+        if (isBalancedParenthesis(expression)) {
+            String postfix = infixToPostfix(expression);
+            Node root = constructExpressionTree(postfix);
 
+            System.out.println("\nExpression Tree: ");
+            displayInorderTreeStructure(root);
+
+            System.out.println("\nPrefix: " + infixToPrefix(expression));
+            System.out.println("Postfix: " + postfix);
+
+            System.out.println();
+            inputValue(root, map, sc);
+
+            System.out.println("\nUpdated Expression: ");
+            String prefix = infixToPrefix(expression);
+            System.out.println("Prefix: " + displayUpdatePrefixAndPostfix(prefix, map));
+            System.out.println("Postfix: " + displayUpdatePrefixAndPostfix(postfix, map));
+
+            System.out.println("\nEvaluated Expression: ");
+            System.out.print(displayUpdatedExpression(expression, map));
+            System.out.print(" = ");
+            System.out.println(df.format(evaluateTree(postfix, map)));
+        } else {
+            return;
+        }
+        sc.close();
     }
 }
